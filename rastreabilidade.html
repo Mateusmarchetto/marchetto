@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- Metadados Essenciais -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Título da Página -->
+    <title>Rastreabilidade - Figos Marchetto</title>
+    
+    <!-- Links para Estilos e Fontes -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="pagina-conteudo">
+
+    <!-- Contêiner principal para a transição -->
+    <div id="page-wrapper">
+        <!-- Cabeçalho Principal -->
+        <header class="header-fixo">
+            <nav class="menu-navegacao" aria-label="Navegação principal">
+                <ul>
+                    <li class="grupo-menu">
+                        <a href="sobre.html" class="link-interno link-sobre">Sobre</a>
+                        <a href="rastreabilidade.html" class="link-interno link-rastreabilidade">Rastreabilidade</a>
+                    </li>
+                    
+                    <li class="logo-menu-item">
+                        <a href="index.html" class="logo-link link-interno" aria-label="Retornar à Página Inicial">
+                            <figure>
+                                <img src="imagens/logo.PNG" alt="Logo Figos Marchetto" class="logo-principal">
+                            </figure>
+                        </a>
+                    </li>
+
+                    <li class="grupo-menu">
+                        <a href="onde-encontrar.html" class="link-interno link-onde-encontrar">Onde Encontrar</a>
+                        <a href="contato.html" class="link-interno link-contato">Contato</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Conteúdo Principal da Página -->
+        <main class="main-conteudo">
+            <h1>Rastreabilidade de Lotes</h1>
+            
+            <div class="container-busca">
+                <input type="text" id="input-busca-lote" placeholder="Digite o lote exato">
+                <button id="btn-busca-lote" aria-label="Buscar Lote">
+                    <i class="fas fa-search"></i>
+                </button>
+                <button id="btn-limpar-busca" aria-label="Limpar Busca">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="container-resultado">
+                <div id="mensagem-resultado">Carregando dados dos lotes...</div>
+                <div id="tabela-resultado"></div>
+            </div>
+        </main>
+
+        <!-- Rodapé -->
+        <footer>
+            <div class="redes-sociais">
+                <a href="https://www.instagram.com/figosmarchetto/" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.facebook.com/figosmarchetto" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Fale conosco pelo WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+           <p class="copyright">© 2025 Figos Marchetto. Todos os direitos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/script.js"></script>
+
+</body>
+</html>
