@@ -138,6 +138,34 @@ async function setupBuscaLote() {
 }
 
 /**
+ * Configura a funcionalidade do menu hambúrguer.
+ */
+function setupMenuMobile() {
+    const btnMobile = document.getElementById('btn-mobile');
+    if (!btnMobile) return;
+
+    const toggleMenu = (event) => {
+        if (event.type === 'touchstart') event.preventDefault();
+        const body = document.body;
+        body.classList.toggle('mobile-menu-aberto');
+        const menuAberto = body.classList.contains('mobile-menu-aberto');
+        btnMobile.setAttribute('aria-expanded', menuAberto);
+    };
+
+    btnMobile.addEventListener('click', toggleMenu);
+    btnMobile.addEventListener('touchstart', toggleMenu);
+
+    // Fecha o menu ao clicar em um link
+    const linksMenu = document.querySelectorAll('#menu-mobile a');
+    linksMenu.forEach(link => {
+        link.addEventListener('click', () => {
+            document.body.classList.remove('mobile-menu-aberto');
+            btnMobile.setAttribute('aria-expanded', 'false');
+        });
+    });
+}
+
+/**
  * Inicializa funcionalidades que dependem do conteúdo específico da página.
  */
 function initializePageScripts() {
@@ -147,6 +175,7 @@ function initializePageScripts() {
         videoFundo.playbackRate = 1.3;
     }
     setupBuscaLote();
+    setupMenuMobile(); // Ativa o menu
 }
 
 // ==========================================================================
@@ -164,6 +193,8 @@ const fetchPageAndUpdateDOM = async (url) => {
         document.body.className = doc.body.className;
         document.getElementById('page-wrapper').innerHTML = doc.getElementById('page-wrapper').innerHTML;
         document.title = doc.title;
+
+        window.history.pushState({}, doc.title, url);
 
         initializePageScripts();
 
