@@ -34,7 +34,10 @@ ul { list-style: none; }
    2. LAYOUT E SEÇÕES DA PÁGINA INICIAL
    ========================================================================== */
 
-body:not(.pagina-conteudo) { overflow: hidden; }
+body:not(.pagina-conteudo) { 
+    overflow: hidden; 
+    position: relative;
+}
 #page-wrapper {
     height: 100%;
 }
@@ -53,15 +56,29 @@ body:not(.pagina-conteudo)::after { content: ''; position: absolute; top: 0; lef
     filter: grayscale(100%);
 }
 
-body:not(.pagina-conteudo) header {
+/* Header da página inicial contém apenas o menu mobile */
+.header-inicio {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 10;
     padding: 20px;
+    display: flex;
+    justify-content: flex-end; /* Alinha o botão do menu à direita */
 }
-body:not(.pagina-conteudo) .main-inicio { flex-grow: 1; display: flex; justify-content: center; align-items: center; width: 100%; }
+
+/* O conteúdo principal da home agora tem o logo e o menu desktop */
+.main-inicio { 
+    flex-grow: 1; 
+    display: flex; 
+    flex-direction: column; /* Empilha logo e menu */
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+    gap: 30px;
+}
+
 body:not(.pagina-conteudo) footer {
     position: absolute;
     bottom: 0;
@@ -82,12 +99,11 @@ body:not(.pagina-conteudo) footer {
     box-shadow: none;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
-/* ATUALIZAÇÃO: Texto grande, padding pequeno */
 body:not(.pagina-conteudo) .menu-navegacao a {
-    padding: 8px 20px; /* Padding super compacto */
+    padding: 8px 20px;
     border-radius: 50px;
     font-weight: 500;
-    font-size: 1.4rem; /* Texto grande */
+    font-size: 1.4rem;
     letter-spacing: 0.5px;
 }
 .redes-sociais { margin-bottom: 15px; text-align: center; }
@@ -127,59 +143,57 @@ body.pagina-conteudo {
     color: var(--cor-texto-escuro);
 }
 
+/* CABEÇALHO DESKTOP */
 .pagina-conteudo header.header-fixo {
     background-color: var(--cor-fundo-branco);
     color: var(--cor-texto-escuro);
     position: sticky; top: 0;
     width: 100%;
     z-index: 100;
-    padding: 20px 20px 35px;
-    position: relative;
+    padding: 20px 50px 35px;
     box-shadow: 0 4px 15px var(--cor-sombra-suave);
     mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 H100 V70 C70,100 30,100 0,70 Z' fill='black'/%3E%3C/svg%3E");
     mask-size: 100% 100%;
     -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,0 H100 V70 C70,100 30,100 0,70 Z' fill='black'/%3E%3C/svg%3E");
     -webkit-mask-size: 100% 100%;
-}
-
-.pagina-conteudo .menu-navegacao {
-    width: 100%;
-}
-.pagina-conteudo .menu-navegacao ul {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 15px;
 }
-.pagina-conteudo .grupo-menu {
+
+.pagina-conteudo .menu-navegacao-desktop ul {
     display: flex;
     gap: 15px;
 }
 
-.pagina-conteudo .menu-navegacao a {
+.pagina-conteudo .logo-link {
+    padding: 0 15px;
+}
+
+.pagina-conteudo .logo-principal { max-height: 55px; }
+
+.pagina-conteudo .menu-navegacao-desktop a {
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--cor-acento-marca);
     font-weight: 500;
-    padding: 10px 20px;
+    /* ATUALIZAÇÃO: Botões maiores */
+    padding: 12px 25px;
+    font-size: 1.1rem;
     border-radius: 8px;
     background-color: var(--cor-fundo-branco);
     border: 1.5px solid var(--cor-acento-marca);
     box-shadow: 0 2px 5px var(--cor-sombra-suave);
     transition: all 0.2s ease-in-out;
 }
-.pagina-conteudo .menu-navegacao a:hover {
+.pagina-conteudo .menu-navegacao-desktop a:hover {
     background-color: var(--cor-acento-marca);
     color: var(--cor-fundo-branco);
     transform: translateY(-2px);
     box-shadow: 0 4px 10px var(--cor-sombra-suave);
 }
-
-.pagina-conteudo .logo-link {
-    padding: 15px;
-}
-.pagina-conteudo .logo-principal { max-height: 50px; }
 
 .pagina-conteudo footer {
     background-color: var(--cor-fundo-branco);
@@ -289,23 +303,28 @@ body.pagina-conteudo {
 }
 
 /* ==========================================================================
-   6. MEDIA QUERIES
+   6. MEDIA QUERIES (DESKTOP FIRST)
    ========================================================================== */
 @media (min-width: 768px) {
     body:not(.pagina-conteudo) .logo-principal { max-height: 265px; }
-    .menu-navegacao a { font-size: 1.1rem; }
-    .pagina-conteudo header.header-fixo { padding: 20px 50px 35px; }
-    .pagina-conteudo .logo-principal { max-height: 55px; }
-    .pagina-conteudo footer { padding: 35px 50px 20px; }
     .main-conteudo { padding: 60px; margin: 80px auto; }
     .main-conteudo h1 { font-size: 3.5rem; }
+    /* Esconde o header da home no desktop, pois o menu está no main */
+    .header-inicio { display: none; }
 }
 @media (max-width: 767px) {
-    body:not(.pagina-conteudo) .logo-principal { max-height: 195px; }
+    body:not(.pagina-conteudo) .logo-principal { 
+        max-height: 195px; 
+        max-width: 90vw; 
+    }
+    /* Esconde o menu de botões da home no mobile, pois usaremos o hambúrguer */
+    body:not(.pagina-conteudo) .menu-navegacao {
+        display: none;
+    }
 }
 
 /* ==========================================================================
-   7. VIEW TRANSITIONS API - A "COREOGRAFIA COMPLETA"
+   7. VIEW TRANSITIONS API
    ========================================================================== */
 
 .logo-link { view-transition-name: logo-principal; contain: layout; }
@@ -332,4 +351,151 @@ body.pagina-conteudo {
 .slow-transition::view-transition-new(footer) {
     animation: fade-in 0.8s ease-out 1.2s backwards,
                slide-up 0.8s ease-out 1.2s backwards;
+}
+
+/* ==========================================================================
+   8. ESTILOS PARA MENU HAMBÚRGUER E MOBILE
+   ========================================================================== */
+
+/* Esconde elementos mobile no desktop por padrão */
+#btn-mobile, #menu-mobile {
+    display: none;
+}
+
+@media (max-width: 767px) {
+
+    /* --- GERAL --- */
+    body {
+        overflow-x: hidden;
+    }
+    body.mobile-menu-aberto {
+        overflow: hidden;
+    }
+
+    /* --- CABEÇALHO MOBILE (Páginas de Conteúdo) --- */
+    .pagina-conteudo header.header-fixo {
+        padding: 15px;
+        mask-image: none;
+        -webkit-mask-image: none;
+        justify-content: space-between;
+        position: relative;
+    }
+    .pagina-conteudo .logo-link {
+        padding: 0;
+        position: static;
+        transform: none;
+    }
+    .pagina-conteudo .logo-principal {
+        max-height: 40px;
+    }
+    .pagina-conteudo .menu-navegacao-desktop {
+        display: none;
+    }
+
+    /* --- BOTÃO HAMBÚRGUER (Estilos para TODAS as páginas) --- */
+    #btn-mobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        z-index: 102;
+    }
+    .linha-hamburguer {
+        width: 100%;
+        height: 3px;
+        border-radius: 3px;
+        transition: all 0.3s ease-in-out;
+    }
+    /* Cor da linha para páginas de conteúdo */
+    .pagina-conteudo .linha-hamburguer {
+        background-color: var(--cor-texto-escuro);
+    }
+    /* Cor da linha para a página inicial */
+    body:not(.pagina-conteudo) .linha-hamburguer {
+        background-color: var(--cor-texto-sobre-video);
+    }
+    
+    body.mobile-menu-aberto #btn-mobile {
+        position: fixed;
+        right: 20px;
+        top: 20px;
+    }
+    body.mobile-menu-aberto #btn-mobile .linha-hamburguer:nth-child(1) {
+        transform: translateY(9px) rotate(45deg);
+    }
+    body.mobile-menu-aberto #btn-mobile .linha-hamburguer:nth-child(2) {
+        opacity: 0;
+    }
+    body.mobile-menu-aberto #btn-mobile .linha-hamburguer:nth-child(3) {
+        transform: translateY(-9px) rotate(-45deg);
+    }
+
+    /* --- PAINEL DO MENU MOBILE (Estilos para TODAS as páginas) --- */
+    #menu-mobile {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 101;
+        justify-content: center;
+        align-items: center;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+    }
+    /* Fundo para páginas de conteúdo */
+    .pagina-conteudo #menu-mobile {
+        background-color: var(--cor-fundo-branco);
+    }
+    /* Fundo para a página inicial */
+    body:not(.pagina-conteudo) #menu-mobile {
+        background-color: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+
+    body.mobile-menu-aberto #menu-mobile {
+        transform: translateX(0);
+    }
+    #menu-mobile ul {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        text-align: center;
+    }
+    #menu-mobile a {
+        color: var(--cor-acento-marca);
+        font-size: 1.8rem;
+        font-weight: 500;
+        padding: 10px 20px;
+    }
+
+    /* --- CONTEÚDO PRINCIPAL MOBILE --- */
+    .main-conteudo {
+        padding: 25px 15px;
+        margin: 40px 10px;
+    }
+    .main-conteudo h1 {
+        font-size: 2rem;
+    }
+    .container-busca {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    #btn-busca-lote, #btn-limpar-busca {
+        width: auto;
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+    #tabela-resultado {
+        width: 100%;
+        overflow-x: auto;
+    }
 }
