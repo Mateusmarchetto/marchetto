@@ -11,8 +11,16 @@
 
     <div id="page-wrapper">
         <div class="inicio-container">
-            <header>
-                <nav class="menu-navegacao">
+            <header class="header-inicio">
+                <!-- BOTÃO HAMBÚRGUER (Visível apenas no mobile) -->
+                <button id="btn-mobile" aria-label="Abrir Menu" aria-expanded="false" aria-controls="menu-mobile">
+                    <span class="linha-hamburguer"></span>
+                    <span class="linha-hamburguer"></span>
+                    <span class="linha-hamburguer"></span>
+                </button>
+        
+                <!-- NAVEGAÇÃO MOBILE (Painel oculto) -->
+                <nav id="menu-mobile" aria-label="Navegação móvel">
                     <ul>
                         <li><a href="sobre.html" class="link-interno link-sobre">Sobre</a></li>
                         <li><a href="rastreabilidade.html" class="link-interno link-rastreabilidade">Rastreabilidade</a></li>
@@ -22,17 +30,25 @@
                 </nav>
             </header>
             <main class="main-inicio">
+                <!-- O logo principal e o menu para desktop ficam aqui -->
                 <a href="index.html" class="logo-link link-interno" aria-label="Página Inicial">
                     <figure>
-                        <!-- ATUALIZAÇÃO: Caminho da logo padronizado -->
                         <img src="imagens/logo.png" alt="Logo Figos Marchetto" class="logo-principal">
                     </figure>
                 </a>
+                <nav class="menu-navegacao">
+                    <ul>
+                        <li><a href="sobre.html" class="link-interno link-sobre">Sobre</a></li>
+                        <li><a href="rastreabilidade.html" class="link-interno link-rastreabilidade">Rastreabilidade</a></li>
+                        <li><a href="onde-encontrar.html" class="link-interno link-onde-encontrar">Onde Encontrar</a></li>
+                        <li><a href="contato.html" class="link-interno link-contato">Contato</a></li>
+                    </ul>
+                </nav>
             </main>
             <footer>
                 <div class="redes-sociais">
-                    <a href="#" aria-label="Visite nosso Instagram"><i class="fab fa-instagram"></i></a>
-                    <a href="#" aria-label="Visite nosso Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/figosmarchetto/" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/figosmarchetto" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Facebook"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" aria-label="Fale conosco pelo WhatsApp"><i class="fab fa-whatsapp"></i></a>
                 </div>
                 <p class="copyright">© 2025 Figos Marchetto. Todos os direitos reservados.</p>
