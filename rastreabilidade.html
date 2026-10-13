@@ -11,7 +11,7 @@
 
     <div id="page-wrapper">
         <header class="header-fixo">
-            <!-- NAVEGAÇÃO PARA DESKTOP (Layout corrigido) -->
+            <!-- NAVEGAÇÃO PARA DESKTOP -->
             <nav class="menu-navegacao-desktop" aria-label="Navegação principal">
                 <ul>
                     <li><a href="sobre.html" class="link-interno link-sobre">Sobre</a></li>
@@ -51,24 +51,55 @@
             </nav>
         </header>
 
-        <main class="main-conteudo">
-            <h1>Rastreabilidade de Lotes</h1>
-            <div class="container-busca">
-                <input type="text" id="input-busca-lote" placeholder="Digite o lote exato">
-                <button id="btn-busca-lote" aria-label="Buscar Lote"><i class="fas fa-search"></i></button>
-                <button id="btn-limpar-busca" aria-label="Limpar Busca"><i class="fas fa-times"></i></button>
+        <main class="main-conteudo rastreabilidade-conteudo">
+            
+            <!-- APRESENTAÇÃO ELEGANTE: EM CONSTRUÇÃO / EM BREVE -->
+            <div class="rastreabilidade-aviso-construcao">
+                <div class="construcao-icone-topo">
+                    <i class="fas fa-qrcode"></i>
+                </div>
+                <span class="construcao-tag-status">Transparência & Qualidade</span>
+                <h1>Rastreabilidade de Lotes</h1>
+                <p class="construcao-subtitulo">
+                    Estamos preparando nosso sistema digital de rastreabilidade. Em breve, você poderá consultar aqui a origem exata, a data de colheita e o talhão de cada bandeja dos Figos Marchetto.
+                </p>
+
+                <div class="construcao-status-pill">
+                    <i class="fas fa-tools"></i> Módulo em Desenvolvimento para a Próxima Safra
+                </div>
+
+                <div class="linha-ornamental"></div>
+
+                <div class="construcao-acoes">
+                    <a href="onde-encontrar.html" class="btn-como-chegar link-interno">
+                        VER ONDE ENCONTRAR NOSSOS FIGOS <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
             </div>
-            <div class="container-resultado">
-                <div id="mensagem-resultado">Carregando dados dos lotes...</div>
-                <div id="tabela-resultado"></div>
+
+            <!-- ===================================================================
+                 LÓGICA DO SISTEMA DE LOTES 100% PRESERVADA (PRONTA PARA ATIVAÇÃO)
+                 Quando quiser ativar a busca pública, basta remover 'style="display: none;"'
+                 =================================================================== -->
+            <div id="sistema-busca-lote-preservado" style="display: none;">
+                <div class="container-busca">
+                    <input type="text" id="input-busca-lote" placeholder="Digite o lote exato">
+                    <button id="btn-busca-lote" aria-label="Buscar Lote"><i class="fas fa-search"></i></button>
+                    <button id="btn-limpar-busca" aria-label="Limpar Busca"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="container-resultado">
+                    <div id="mensagem-resultado">Carregando dados dos lotes...</div>
+                    <div id="tabela-resultado"></div>
+                </div>
             </div>
+
         </main>
 
         <footer>
             <div class="redes-sociais">
                 <a href="https://www.instagram.com/figosmarchetto/" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.facebook.com/figosmarchetto" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Fale conosco pelo WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://wa.me/555492288341" target="_blank" rel="noopener noreferrer" aria-label="Fale conosco pelo WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
             <p class="copyright">© 2025 Figos Marchetto. Todos os direitos reservados.</p>
         </footer>
