@@ -11,7 +11,7 @@
 
     <div id="page-wrapper">
         <header class="header-fixo">
-            <!-- NAVEGAÇÃO PARA DESKTOP (Layout corrigido) -->
+            <!-- NAVEGAÇÃO PARA DESKTOP -->
             <nav class="menu-navegacao-desktop" aria-label="Navegação principal">
                 <ul>
                     <li><a href="sobre.html" class="link-interno link-sobre">Sobre</a></li>
@@ -52,14 +52,95 @@
         </header>
 
         <main class="main-conteudo">
-            <h1>EM CONSTRUÇÃO</h1>
+            <h1>Onde Encontrar</h1>
+            <p class="subtitulo-onde-encontrar">Encontre os pontos de venda dos Figos Marchetto e veja como chegar.</p>
+
+            <!-- FILTRO DE CIDADES EM PÍLULAS (CHIPS) -->
+            <div class="secao-filtro-cidades">
+                <div class="cabecalho-filtro">
+                    <span class="rotulo-filtro"><i class="fas fa-map-marker-alt"></i> Filtrar por região:</span>
+                    <span id="contador-locais" class="contador-locais" aria-live="polite"></span>
+                </div>
+                <div id="chips-cidades" class="chips-cidades" role="group" aria-label="Filtrar por cidade">
+                    <!-- Gerado dinamicamente via JS -->
+                </div>
+            </div>
+
+            <!-- CONTAINER DOS CARDS -->
+            <div id="lista-estabelecimentos" class="lista-estabelecimentos">
+                <!-- Os cartões entrarão aqui de forma dinâmica -->
+            </div>
+
+            <!-- MENSAGEM CASO NENHUM ESTABELECIMENTO SEJA ENCONTRADO -->
+            <div id="mensagem-vazio" class="mensagem-vazio" style="display: none;">
+                <i class="fas fa-store-slash"></i>
+                <p>Nenhum estabelecimento encontrado nesta cidade.</p>
+            </div>
+
+            <!-- CARD EXCLUSIVO E DISCRETO: SEJA UM REVENDEDOR -->
+            <aside class="card-parceiro-destaque" aria-label="Seja um revendedor">
+                <div class="card-parceiro-conteudo">
+                    <div class="card-parceiro-icone">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <div class="card-parceiro-texto">
+                        <h3>Quer revender Figos Marchetto na sua loja?</h3>
+                        <p>Trabalhamos com fornecimento direto para hortifrutis, empórios e supermercados com garantia de padrão e frescor.</p>
+                    </div>
+                </div>
+                <button type="button" id="btn-abrir-modal-revendedor" class="btn-revendedor-abrir">
+                    Falar com Comercial <i class="fas fa-comment-dots"></i>
+                </button>
+            </aside>
         </main>
+
+        <!-- POP-UP / MODAL COMERCIAL -->
+        <div id="modal-revendedor" class="modal-overlay" aria-hidden="true" role="dialog" aria-labelledby="modal-titulo">
+            <div class="modal-janela">
+                <button type="button" id="btn-fechar-modal" class="modal-btn-fechar" aria-label="Fechar janela">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="modal-cabecalho">
+                    <span class="modal-subtitulo-tag">Contato Comercial</span>
+                    <h2 id="modal-titulo">Seja um Parceiro Marchetto</h2>
+                    <p>Escolha o canal de sua preferência para falar diretamente com o nosso time de atendimento:</p>
+                </div>
+                <div class="modal-opcoes">
+                    <a href="https://wa.me/555492288341?text=Ol%C3%A1%2C%20tenho%20interesse%20em%20revender%20os%20Figos%20Marchetto%20no%20meu%20estabelecimento." target="_blank" rel="noopener noreferrer" class="modal-btn-opcao opcao-whatsapp">
+                        <div class="opcao-icone"><i class="fab fa-whatsapp"></i></div>
+                        <div class="opcao-info">
+                            <strong>WhatsApp Direto</strong>
+                            <span>Atendimento rápido e pedidos</span>
+                        </div>
+                        <i class="fas fa-arrow-right seta-opcao"></i>
+                    </a>
+
+                    <a href="https://www.instagram.com/figosmarchetto/" target="_blank" rel="noopener noreferrer" class="modal-btn-opcao opcao-instagram">
+                        <div class="opcao-icone"><i class="fab fa-instagram"></i></div>
+                        <div class="opcao-info">
+                            <strong>Instagram Oficial</strong>
+                            <span>Conheça nossa produção e envie DM</span>
+                        </div>
+                        <i class="fas fa-arrow-right seta-opcao"></i>
+                    </a>
+
+                    <a href="https://www.facebook.com/figosmarchetto" target="_blank" rel="noopener noreferrer" class="modal-btn-opcao opcao-facebook">
+                        <div class="opcao-icone"><i class="fab fa-facebook-f"></i></div>
+                        <div class="opcao-info">
+                            <strong>Facebook</strong>
+                            <span>Acompanhe novidades da marca</span>
+                        </div>
+                        <i class="fas fa-arrow-right seta-opcao"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
 
         <footer>
             <div class="redes-sociais">
                 <a href="https://www.instagram.com/figosmarchetto/" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://www.facebook.com/figosmarchetto" target="_blank" rel="noopener noreferrer" aria-label="Visite nosso Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Fale conosco pelo WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://wa.me/555492288341" target="_blank" rel="noopener noreferrer" aria-label="Fale conosco pelo WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
             <p class="copyright">© 2025 Figos Marchetto. Todos os direitos reservados.</p>
         </footer>
