@@ -1,0 +1,566 @@
+/* ========================================================================
+   FIGOS MARCHETTO — FUNDO BOTÂNICO
+   Crescimento, colheita dos figos, queda das folhas e reinício do ciclo.
+   ======================================================================== */
+
+:root {
+  --fundo-opacidade-global: 0.27;
+  --cor-casca-principal: #4E4A3E;
+  --cor-casca-jovem: #626D47;
+  --cor-folha-base: #426437;
+  --cor-folha-nervura: #B5C88D;
+  --cor-figo: #70253F;
+}
+
+#fundo-botanico-global {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  contain: strict;
+}
+
+body.pagina-conteudo #fundo-botanico-global {
+  opacity: var(--fundo-opacidade-global);
+}
+
+body.pagina-conteudo #fundo-botanico-global.fm-harvesting {
+  opacity: 0.72;
+  transition-duration: 0.8s;
+}
+
+.svg-arvore-fundo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.plant-side {
+  --side-phase: 0s;
+}
+
+.plant-base {
+  --side-phase: 2.1s;
+}
+
+.plant-side {
+  transition: opacity 0.65s ease;
+}
+
+#fundo-botanico-global.fm-harvesting .plant-side {
+  opacity: 0.38;
+}
+
+/* Mantém a ilustração quieta até o conteúdo estar visível. */
+.branch-unit,
+.branch-line,
+.leaf-growth,
+.fig-growth {
+  animation-play-state: paused;
+}
+
+body.pagina-conteudo #fundo-botanico-global .branch-unit,
+body.pagina-conteudo #fundo-botanico-global .branch-line,
+body.pagina-conteudo #fundo-botanico-global .leaf-growth,
+body.pagina-conteudo #fundo-botanico-global .fig-growth {
+  animation-play-state: running;
+}
+
+/* O grupo inteiro começa invisível; isso evita qualquer traço antes do início. */
+.branch-unit {
+  opacity: 0;
+  animation-name: fm-reveal-branch;
+  animation-duration: var(--branch-duration, 18s);
+  animation-delay: calc(var(--branch-delay, 0s) + var(--side-phase, 0s));
+  animation-timing-function: cubic-bezier(0.22, 0.68, 0.28, 1);
+  animation-fill-mode: both;
+}
+
+/* GALHOS: cada segmento tem seu próprio instante e velocidade de crescimento. */
+.branch-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: stroke 1.15s ease;
+  stroke-dasharray: var(--path-length, 1000px);
+  stroke-dashoffset: var(--path-length, 1000px);
+  vector-effect: non-scaling-stroke;
+  animation-name: fm-draw-branch;
+  animation-duration: var(--branch-duration, 20s);
+  animation-delay: calc(var(--branch-delay, 0s) + var(--side-phase, 0s));
+  animation-timing-function: cubic-bezier(0.38, 0.02, 0.23, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes fm-reveal-branch {
+  0%   { opacity: 0; }
+  12%  { opacity: 0.68; }
+  34%  { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.branch-under.depth-0 {
+  stroke: url(#fm-bark-gradient);
+  stroke-width: 7.3;
+}
+.branch-highlight.depth-0 {
+  stroke: #9C8C65;
+  stroke-width: 1.35;
+  opacity: 0.78;
+}
+
+.branch-under.depth-1 {
+  stroke: url(#fm-young-branch-gradient);
+  stroke-width: 4.6;
+}
+.branch-highlight.depth-1 {
+  stroke: #B1B47C;
+  stroke-width: 0.9;
+  opacity: 0.72;
+}
+
+.branch-under.depth-2 {
+  stroke: #708252;
+  stroke-width: 2.65;
+}
+.branch-highlight.depth-2 {
+  stroke: #C0C78B;
+  stroke-width: 0.65;
+  opacity: 0.70;
+}
+
+@keyframes fm-draw-branch {
+  from { stroke-dashoffset: var(--path-length, 1000px); }
+  to   { stroke-dashoffset: 0; }
+}
+
+#fundo-botanico-global.fm-resetting .branch-line {
+  animation-name: fm-shorten-branch !important;
+  animation-duration: var(--shrink-duration, 1.55s) !important;
+  animation-delay: var(--shrink-delay, 0s) !important;
+  animation-timing-function: cubic-bezier(0.38, 0.02, 0.62, 1) !important;
+  animation-fill-mode: forwards !important;
+}
+
+#fundo-botanico-global #fm-bark-gradient stop,
+#fundo-botanico-global #fm-young-branch-gradient stop {
+  transition: stop-color 1.15s ease;
+}
+#fundo-botanico-global.fm-resetting #fm-bark-gradient stop:nth-of-type(1) { stop-color: #8E7A50; }
+#fundo-botanico-global.fm-resetting #fm-bark-gradient stop:nth-of-type(2) { stop-color: #A18D5D; }
+#fundo-botanico-global.fm-resetting #fm-bark-gradient stop:nth-of-type(3) { stop-color: #8C794E; }
+#fundo-botanico-global.fm-resetting #fm-young-branch-gradient stop:nth-of-type(1) { stop-color: #9B8857; }
+#fundo-botanico-global.fm-resetting #fm-young-branch-gradient stop:nth-of-type(2) { stop-color: #B29D67; }
+#fundo-botanico-global.fm-resetting #fm-young-branch-gradient stop:nth-of-type(3) { stop-color: #928052; }
+#fundo-botanico-global.fm-resetting .branch-under.depth-2 { stroke: #A89965; }
+#fundo-botanico-global.fm-resetting .branch-highlight { stroke: #D2C18D; }
+
+@keyframes fm-shorten-branch {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: var(--path-length, 1000px); }
+}
+
+/* FOLHAS: contorno lobulado, nervura central e nervuras laterais. */
+.leaf-unit,
+.fruit-unit {
+  pointer-events: none;
+  overflow: visible;
+}
+
+.leaf-growth {
+  opacity: 0;
+  transform: scale(0.025) rotate(-8deg);
+  transform-box: fill-box;
+  transform-origin: 0% 100%;
+  animation-name: fm-unfurl-leaf;
+  animation-duration: var(--leaf-duration, 1.65s);
+  animation-delay: calc(var(--leaf-delay, 0s) + var(--side-phase, 0s));
+  animation-timing-function: cubic-bezier(0.18, 0.72, 0.22, 1);
+  animation-fill-mode: both;
+}
+
+.leaf-blade {
+  fill: url(#fm-leaf-gradient);
+  stroke: #2E4B2B;
+  stroke-width: 1.35;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.leaf-light-wash {
+  fill: url(#fm-leaf-glow);
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+.leaf-vein-main {
+  fill: none;
+  stroke: #C4D29B;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  opacity: 0.94;
+  vector-effect: non-scaling-stroke;
+}
+
+.leaf-vein {
+  fill: none;
+  stroke: #B5C88D;
+  stroke-width: 0.92;
+  stroke-linecap: round;
+  opacity: 0.84;
+  vector-effect: non-scaling-stroke;
+}
+
+.leaf-vein-fine {
+  fill: none;
+  stroke: #C5D5A0;
+  stroke-width: 0.48;
+  stroke-linecap: round;
+  opacity: 0.58;
+  vector-effect: non-scaling-stroke;
+}
+
+.leaf-edge-detail {
+  fill: none;
+  stroke: #2C4C2B;
+  stroke-width: 0.7;
+  stroke-linecap: round;
+  opacity: 0.72;
+  vector-effect: non-scaling-stroke;
+}
+
+.leaf-unit.is-aging .leaf-blade {
+  fill: #A5905E;
+  transition: fill 1.2s ease;
+}
+
+.leaf-unit.is-aging .leaf-vein,
+.leaf-unit.is-aging .leaf-vein-main,
+.leaf-unit.is-aging .leaf-vein-fine {
+  stroke: #C3AD76;
+  transition: stroke 1.2s ease;
+}
+
+.leaf-unit.is-aging .leaf-growth {
+  animation-name: fm-fall-leaf;
+  animation-duration: var(--fall-duration, 5.2s);
+  animation-delay: var(--fall-delay, 0s);
+  animation-timing-function: cubic-bezier(0.35, 0.02, 0.62, 1);
+  animation-fill-mode: both;
+}
+
+@keyframes fm-fall-leaf {
+  0%   { transform: scale(1) rotate(0deg); opacity: 1; }
+  22%  { transform: scale(0.98) rotate(4deg); opacity: 0.98; }
+  100% {
+    transform: translate(var(--fall-x, 20px), var(--fall-distance, 100px))
+      scale(0.42) rotate(var(--fall-tilt, 48deg));
+    opacity: 0;
+  }
+}
+
+@keyframes fm-unfurl-leaf {
+  0%   { transform: scale(0.025) rotate(-8deg); opacity: 0; }
+  22%  { opacity: 0.72; }
+  72%  { transform: scale(0.91) rotate(2deg); opacity: 0.96; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* FIGOS: a animação começa depois do fim da abertura da folha associada. */
+.fig-growth {
+  opacity: 0;
+  transform: scale(0.035) translateY(-2px);
+  transform-box: fill-box;
+  transform-origin: 50% 0%;
+  animation-name: fm-grow-fig;
+  animation-duration: var(--fig-duration, 2.35s);
+  animation-delay: calc(var(--fig-delay, 0s) + var(--side-phase, 0s));
+  animation-timing-function: cubic-bezier(0.2, 0.75, 0.22, 1);
+  animation-fill-mode: both;
+}
+
+.fruit-pedicel {
+  fill: none;
+  stroke: #586A3E;
+  stroke-width: 2.1;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.fruit-body {
+  fill: url(#fm-fig-gradient);
+  stroke: #4C1B30;
+  stroke-width: 1.1;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.fruit-highlight {
+  fill: none;
+  stroke: url(#fm-fig-highlight);
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  opacity: 0.92;
+  vector-effect: non-scaling-stroke;
+}
+
+.fruit-ridge {
+  fill: none;
+  stroke: #B65F72;
+  stroke-width: 0.65;
+  stroke-linecap: round;
+  opacity: 0.55;
+  vector-effect: non-scaling-stroke;
+}
+
+.fruit-calyx {
+  fill: none;
+  stroke: #485D35;
+  stroke-width: 1.35;
+  stroke-linecap: round;
+}
+
+.fruit-ostiole {
+  fill: #371324;
+  stroke: #B76B79;
+  stroke-width: 0.55;
+}
+
+.produce-crate {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+.crate-shadow {
+  fill: rgba(37, 32, 23, 0.22);
+}
+
+.crate-back {
+  fill: url(#fm-crate-wood-gradient);
+  stroke: #98734B;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.crate-side {
+  fill: #B88D59;
+  stroke: #8F6B45;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.crate-interior {
+  fill: #74563D;
+  stroke: #8F6B45;
+  stroke-width: 1.6;
+}
+
+.crate-front {
+  fill: url(#fm-crate-wood-gradient);
+  stroke: #8F6B45;
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.crate-rim {
+  fill: #E0BE8A;
+  stroke: #9B7650;
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+.crate-label {
+  fill: #EAD5AC;
+  stroke: #A98454;
+  stroke-width: 1.5;
+}
+
+.crate-grain {
+  fill: none;
+  stroke: #9D774D;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  opacity: 0.62;
+}
+
+.crate-brand {
+  fill: #50341F;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  letter-spacing: 1.8px;
+}
+
+.stored-fig {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.crate-sway,
+.support-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+}
+
+.crate-sway {
+  animation-name: fm-crate-held;
+  animation-duration: 3.4s;
+}
+
+.crate-left .crate-sway { animation-delay: -0.7s; }
+.crate-right .crate-sway { animation-delay: -2.1s; }
+
+.support-sway {
+  animation-name: fm-support-hold;
+  animation-duration: 3.2s;
+}
+
+.support-left .support-sway { animation-delay: -0.9s; }
+.support-right .support-sway { animation-delay: -2.3s; }
+
+@keyframes fm-crate-held {
+  0%, 100% { transform: translateY(0) rotate(-0.12deg); }
+  50% { transform: translateY(-2.3px) rotate(0.16deg); }
+}
+
+@keyframes fm-support-hold {
+  0%, 100% { transform: translateY(0) rotate(0.08deg); }
+  50% { transform: translateY(-1.7px) rotate(-0.14deg); }
+}
+
+.harvest-arm {
+  overflow: visible;
+}
+
+.harvest-sleeve {
+  fill: #526B58;
+  stroke: #34483B;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+
+.harvest-seam {
+  fill: none;
+  stroke: #A9B49A;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+.harvest-cuff {
+  fill: #88977D;
+  stroke: #34483B;
+  stroke-width: 1.9;
+  stroke-linejoin: round;
+}
+
+.harvest-glove {
+  fill: url(#fm-glove-gradient);
+  stroke: #9D9F94;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 180ms ease;
+  filter: drop-shadow(0 1px 1px rgba(47, 48, 42, 0.2));
+}
+
+.harvest-arm.is-pinching .harvest-glove {
+  transform: translate(3px, -1px) scale(0.91);
+}
+
+.glove-seam {
+  fill: none;
+  stroke: #C9C9BE;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+}
+
+.glove-highlight {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.86);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+
+.crate-support {
+  overflow: visible;
+}
+
+.support-sleeve {
+  fill: #526B58;
+  stroke: #34483B;
+  stroke-width: 2.4;
+  stroke-linejoin: round;
+}
+
+.support-cuff {
+  fill: #89977F;
+  stroke: #34483B;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.support-glove {
+  fill: url(#fm-glove-gradient);
+  stroke: #9D9F94;
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 1px 1px rgba(47, 48, 42, 0.2));
+}
+
+.support-glove-seam {
+  fill: none;
+  stroke: #C4C4B9;
+  stroke-width: 1.15;
+  stroke-linecap: round;
+}
+
+@keyframes fm-grow-fig {
+  0%   { transform: scale(0.035) translateY(-2px); opacity: 0; }
+  24%  { opacity: 0.72; }
+  76%  { transform: scale(0.9) translateY(1px); opacity: 0.98; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@media (max-width: 767px) {
+  :root { --fundo-opacidade-global: 0.12; }
+  body.pagina-conteudo #fundo-botanico-global.fm-harvesting { opacity: 0.34; }
+  .branch-under.depth-0 { stroke-width: 5.8; }
+  .branch-under.depth-1 { stroke-width: 3.8; }
+  .branch-under.depth-2 { stroke-width: 2.2; }
+  .leaf-vein-fine, .leaf-edge-detail { display: none; }
+  .harvest-glove, .support-glove { filter: none; }
+  .crate-brand { font-size: 17px; letter-spacing: 0.7px; }
+}
+
+@media (max-width: 380px) {
+  :root { --fundo-opacidade-global: 0.10; }
+  body.pagina-conteudo #fundo-botanico-global.fm-harvesting { opacity: 0.28; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #fundo-botanico-global { transition: none; }
+  .crate-sway, .support-sway { animation: none !important; }
+  .plant-side, .harvest-arm, .harvest-glove { transition: none !important; }
+  .branch-unit { animation: none !important; opacity: 1 !important; }
+  .branch-line {
+    animation: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+  .leaf-growth, .fig-growth {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
