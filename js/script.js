@@ -754,7 +754,7 @@
         map: 'https://maps.app.goo.gl/CnaWSjn5YWdQ4yCs5'
       },
       {
-        city: 'Concórdia', state: 'SC', name: 'Casa Da Melancia',
+        city: 'Concórdia', state: 'SC', name: 'Casa da Melancia',
         address: 'R. Dr. Maruri, 1689 - Centro, Concórdia - SC, 89700-000',
         phone: '(49) 3442-7598', tel: '+554934427598',
         map: 'https://maps.app.goo.gl/pmKzB4Bxb4tKsY4Z8'
@@ -769,17 +769,17 @@
         city: 'Getúlio Vargas', state: 'RS', name: 'Karpinski & Cia Ltda',
         address: 'Nossa Sra. Consoladora, Getúlio Vargas - RS, 99900-000',
         phone: '(54) 3341-0000', tel: '+555433410000',
-        whatsapp: '35 - 99823.1124', whatsappTel: '5535998231124',
+        whatsapp: '(35) 99823-1124', whatsappTel: '5535998231124',
         map: 'https://maps.app.goo.gl/pqUwuEcu9BRbLzvp7'
       },
       {
         city: 'Erechim', state: 'RS', name: 'Arlindo',
-        address: 'Endereço detalhado não informado. Consulte a localização no mapa.',
-        phone: '5499830766', tel: '+555499830766',
-        map: 'https://maps.app.goo.gl/wsmqgdMHpKqcdj9eA'
+        address: 'Ponto fixo · caminhão azul · veja a localização no mapa.',
+        phone: '(54) 9983-0766', tel: '+555499830766',
+        map: 'https://maps.app.goo.gl/4EqSYDapZ8eLLD3L6'
       },
       {
-        city: 'Erechim', state: 'RS', name: 'Flora morangos e hortaliça',
+        city: 'Erechim', state: 'RS', name: 'Flora Morangos e Hortaliça',
         address: 'R. Zero Hora, 146 - Linho, Erechim - RS, 99704-362',
         phone: '(54) 99975-3900', tel: '+5554999753900',
         map: 'https://maps.app.goo.gl/eRpGUUBz3H9M3DBV9'
@@ -793,23 +793,23 @@
       {
         city: 'Pato Branco', state: 'PR', name: 'No Ponto Supermercados - São Cristóvão',
         address: 'Av. Tupi, 6495 - São Cristóvão, Pato Branco - PR, 85508-005',
-        phone: '04631229300', tel: '+554631229300',
+        phone: '(46) 3122-9300', tel: '+554631229300',
         map: 'https://maps.app.goo.gl/QE9stT3TvM8wMG22A'
       },
       {
         city: 'Pato Branco', state: 'PR', name: 'No Ponto Supermercado - Centro',
         address: 'R. Guarani, 285 - Centro, Pato Branco - PR, 85501-050',
-        phone: '046999702003', tel: '+5546999702003',
+        phone: '(46) 99970-2003', tel: '+5546999702003',
         map: 'https://maps.app.goo.gl/SqFcdnJ4ssxZWKUB8'
       },
       {
         city: 'Pato Branco', state: 'PR', name: 'No Ponto Supermercados - Zona Norte',
         address: 'Av. Tupi, 759 - Bortot, Pato Branco - PR, 85504-250',
-        phone: '04626041423', tel: '+554626041423',
+        phone: '(46) 2604-1423', tel: '+554626041423',
         map: 'https://maps.app.goo.gl/vK7xw99k6DTTFXcVA'
       },
       {
-        city: 'Jacutinga', state: 'RS', name: 'Ponto de venda (nome não informado)',
+        city: 'Jacutinga', state: 'RS', name: 'Supermercado De Gregori',
         address: 'Av. Ângelo Gaspareto, 350 - Jacutinga - RS, 99730-000',
         phone: '(54) 3368-1383', tel: '+555433681383',
         map: 'https://maps.app.goo.gl/RVuJGhVZmEfuE7bg9'
@@ -817,7 +817,7 @@
       {
         city: 'Campinas do Sul', state: 'RS', name: 'Supermercado Orlando',
         address: 'Av. Pedro Álvares Cabral, 830 - Centro, Campinas do Sul - RS, 99660-000',
-        phone: '05433661514', tel: '+555433661514',
+        phone: '(54) 3366-1514', tel: '+555433661514',
         map: 'https://maps.app.goo.gl/YmKqFpkCi3tHPbjz7'
       }
     ];
@@ -839,12 +839,13 @@
       return node;
     };
 
-    function makeContactLink(label, href, icon, extraClass = '') {
+    function makeContactLink(label, href, icon, extraClass = '', accessibleLabel = label) {
       const link = makeNode('a', `card-link-contato ${extraClass}`.trim(), '');
       link.href = href;
+      link.setAttribute('aria-label', accessibleLabel);
       const iconNode = makeNode('i', icon);
       iconNode.setAttribute('aria-hidden', 'true');
-      link.append(iconNode, document.createTextNode(` ${label}`));
+      link.append(iconNode, makeNode('span', 'card-contato-texto', label));
       return link;
     }
 
@@ -862,10 +863,10 @@
 
       const contacts = makeNode('div', 'card-contatos');
       if (location.phone) {
-        contacts.appendChild(makeContactLink(location.phone, `tel:${location.tel}`, 'fas fa-phone'));
+        contacts.appendChild(makeContactLink(`Ligar · ${location.phone}`, `tel:${location.tel}`, 'fas fa-phone', '', `Ligar para ${location.name}: ${location.phone}`));
       }
       if (location.whatsapp) {
-        contacts.appendChild(makeContactLink(location.whatsapp, `https://wa.me/${location.whatsappTel}`, 'fab fa-whatsapp', 'link-whatsapp'));
+        contacts.appendChild(makeContactLink(`WhatsApp · ${location.whatsapp}`, `https://wa.me/${location.whatsappTel}`, 'fab fa-whatsapp', 'link-whatsapp', `Abrir WhatsApp de ${location.name}: ${location.whatsapp}`));
       }
       if (contacts.childElementCount) info.appendChild(contacts);
 
@@ -904,9 +905,11 @@
     });
 
     function renderLocations() {
-      const visible = selectedCity === 'Todas'
+      const visible = (selectedCity === 'Todas'
         ? locations
-        : locations.filter(location => location.city === selectedCity);
+        : locations.filter(location => location.city === selectedCity))
+        .slice()
+        .sort((a, b) => a.city.localeCompare(b.city, 'pt-BR') || a.name.localeCompare(b.name, 'pt-BR'));
       cardContainer.replaceChildren(...visible.map(makeCard));
       if (emptyMessage) emptyMessage.style.display = visible.length ? 'none' : 'block';
       if (countElement) {
